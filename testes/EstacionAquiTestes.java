@@ -3,6 +3,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/*
+ * @author Gabriel dantas de oliveira - Matricula = 121110669
+ */
 import EstacionAqui.EstacionAqui;
 
 class EstacionAquiTestes {
@@ -206,5 +209,205 @@ class EstacionAquiTestes {
 		this.estacionamento.adicionarVaga(45, "rua d", 12);
 		assertEquals("0 - rua a - rua a.com - OCUPADA/n34 - rua b - https:// - LIVRE/n45 - rua d - https:// - LIVRE/n99 - rua c - rua c.com - OCUPADA/n",estacionamento.listarVagasAtivas());
 	}
+	
+	@Test
+	void vagas_ativas_0() {
+		assertEquals(0,this.estacionamento.vagasAtivas());
+	}
+	
+	@Test
+	void vagas_ativas_inferior() {
+		this.estacionamento.adicionarVaga(0, "Rua dos indios , pajé", 12.3);
+		assertEquals(1,this.estacionamento.vagasAtivas());
+	}
+	
+	@Test
+	void vagas_ativas_superior() {
+		this.estacionamento.adicionarVaga(99, "Rua dos moços , legal", 12.3);
+		assertEquals(1,this.estacionamento.vagasAtivas());
+	}
+	
+	@Test
+	void vagas_ativas_quaisquer1() {
+		this.estacionamento.adicionarVaga(0, "Rua dos indios , pajé", 12.3);
+		this.estacionamento.adicionarVaga(34, "Rua a , a", 10);
+		this.estacionamento.adicionarVaga(48, "Rua a , a", 10);
+		this.estacionamento.adicionarVaga(79, "Rua a , a", 10);
+		this.estacionamento.adicionarVaga(99, "Rua a , a", 10);
+		assertEquals(5,this.estacionamento.vagasAtivas());
+	}
+	
+	@Test
+	void vagas_ativas_quaisquer2() {
+		this.estacionamento.adicionarVaga(0, "Rua dos indios , pajé", 12.3);
+		this.estacionamento.adicionarVaga(34, "Rua a , a", 10);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.adicionarVaga(48, "Rua b , b", 10);
+		this.estacionamento.adicionarVaga(79, "Rua c , c", 10);
+		this.estacionamento.mudarStatus(79);
+		assertEquals(4,this.estacionamento.vagasAtivas());
+	}
+	
+	@Test 
+	void vagas_livres_dados_inferior() {
+		this.estacionamento.adicionarVaga(0, "Rua do samba , tocar",12.3);
+		assertEquals(0,this.estacionamento.vagaLivre_Dados("Rua do samba , tocar", 12.3));
+	}
+	
+	@Test 
+	void vagas_livres_dados_superior() {
+		this.estacionamento.adicionarVaga(99, "Rua da capoeira , berimbal",15.3);
+		assertEquals(99,this.estacionamento.vagaLivre_Dados("Rua da capoeira , berimbal", 15.3));
+	}
+	
+	@Test 
+	void vagas_livres_dados_notFind() {
+		this.estacionamento.adicionarVaga(0, "Rua da capoeira , berimbal",15.3);
+		this.estacionamento.mudarStatus(0);
+		assertEquals(-1,this.estacionamento.vagaLivre_Dados("Rua da capoeira , berimbal", 15.3));
+	}
+	
+	@Test 
+	void vagas_livres_dados_notIn() {
+		this.estacionamento.adicionarVaga(99, "Rua da capoeira , berimbal",15.3);
+		this.estacionamento.adicionarVaga(0, "Rua da capoeira , berimbal",15.3);
+		this.estacionamento.mudarStatus(0);
+		assertEquals(-1,this.estacionamento.vagaLivre_Dados("Rua de mocambique , africa", 15.3));
+	}
+	
+	@Test
+	void relatoria_vagas1() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		assertEquals("Vaga 0 - 0/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void relatoria_vagas2() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		this.estacionamento.mudarStatus(0);
+		assertEquals("Vaga 0 - 1/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void relatoria_vagas3() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		assertEquals("Vaga 0 - 1/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void relatoria_vagas4() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		assertEquals("Vaga 0 - 2/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void relatoria_vagas5() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(0);
+		assertEquals("Vaga 0 - 2/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void relatoria_vagas6() {
+		this.estacionamento.adicionarVaga(0, "Rua da matemática , cosseno",12.4);
+		this.estacionamento.adicionarVaga(99, "Rua da matemática , tangente",12.4);
+		this.estacionamento.adicionarVaga(47, "Rua da matemática , seno",12.4);
+		this.estacionamento.mudarStatus(0);
+		this.estacionamento.mudarStatus(47);
+		this.estacionamento.mudarStatus(47);
+		this.estacionamento.mudarStatus(99);
+		this.estacionamento.mudarStatus(99);
+		this.estacionamento.mudarStatus(99);
+		this.estacionamento.mudarStatus(99);
+		this.estacionamento.mudarStatus(99);
+		assertEquals("Vaga 0 - 1/nVaga 47 - 1/nVaga 99 - 3/n",estacionamento.relatorioVagas());
+	}
+	
+	@Test
+	void adicionar_Comentario1() {
+		this.estacionamento.adicionarVaga(0, "Rua a , a", 8.6);
+		assertEquals(true,this.estacionamento.adicionarComentario(0, "A vaga foi pequena."));
+	}
+	
+	@Test
+	void adicionar_Comentario2() {
+		this.estacionamento.adicionarVaga(0, "Rua a , ", 8.6);
+		this.estacionamento.adicionarComentario(0, "a");
+		this.estacionamento.adicionarComentario(0, "b");
+		this.estacionamento.adicionarComentario(0, "c");
+		this.estacionamento.adicionarComentario(0, "d");
+		assertEquals(true,this.estacionamento.adicionarComentario(0, "A vaga foi pequena."));
+	}
+	
+	@Test
+	void adicionar_Comentario3() {
+		this.estacionamento.adicionarVaga(0, "Rua a , ", 8.6);
+		this.estacionamento.adicionarComentario(99, "a");
+		this.estacionamento.adicionarComentario(99, "b");
+		this.estacionamento.adicionarComentario(99, "c");
+		this.estacionamento.adicionarComentario(99, "d");
+		assertEquals(true,this.estacionamento.adicionarComentario(99, "A vaga foi pequena."));
+	}
+	
+	@Test
+	void adicionar_Comentario4() {
+		this.estacionamento.adicionarVaga(0, "Rua a , a", 8.6);
+		assertEquals(true,this.estacionamento.adicionarComentario(0, "A vaga foi pequena.","Gabriel"));
+	}
+	
+	@Test
+	void adicionar_Comentario5() {
+		this.estacionamento.adicionarVaga(0, "Rua a , ", 8.6);
+		this.estacionamento.adicionarComentario(0, "a","Gabriel");
+		this.estacionamento.adicionarComentario(0, "b","Gabriel");
+		this.estacionamento.adicionarComentario(0, "c","Gabriel");
+		this.estacionamento.adicionarComentario(0, "d","Gabriel");
+		assertEquals(true,this.estacionamento.adicionarComentario(0, "A vaga foi pequena.","Gabriel"));
+	}
+	
+	@Test
+	void adicionar_Comentario6() {
+		this.estacionamento.adicionarVaga(99, "Rua a , ", 8.6);
+		this.estacionamento.adicionarComentario(99, "a","Gabriel");
+		this.estacionamento.adicionarComentario(99, "b","Gabriel");
+		this.estacionamento.adicionarComentario(99, "c","Gabriel");
+		this.estacionamento.adicionarComentario(99,"d","gabriel");
+		assertEquals(true,this.estacionamento.adicionarComentario(99,"A vaga foi pequena","Gabriel"));
+	}
+	
+	@Test
+	void listarComentario1() {
+		this.estacionamento.adicionarVaga(0,"Rua a , ", 8.6);
+		assertEquals("", this.estacionamento.listarComentarios(0));
+	}
+	
+	@Test
+	void listarComentario2() {
+		this.estacionamento.adicionarVaga(99,"Rua a ,a ", 93.2);
+		this.estacionamento.adicionarComentario(99, "a,Gabriel");
+		this.estacionamento.adicionarComentario(99, "b,Gabriel","link");
+		this.estacionamento.adicionarComentario(99, "c,Gabriel","link");
+		this.estacionamento.adicionarComentario(99,"d,gabriel");
+		assertEquals("a,Gabriel ()/nb,Gabriel (link)/nc,Gabriel (link)/nd,gabriel ()/n",this.estacionamento.listarComentarios(99));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

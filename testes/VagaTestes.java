@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import EstacionAqui.Vaga;;
 
+/*
+ * @author Gabriel dantas de oliveira - Matricula = 121110669
+ */
 class VagaTestes {
 	Vaga vaga;
 	
